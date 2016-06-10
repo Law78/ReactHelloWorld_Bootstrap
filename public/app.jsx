@@ -3,12 +3,14 @@ var GreeterMessage = React.createClass({
     var nome = this.props.nome;
     var msg = this.props.msg;
     return(
-      <div className="panel panel-default">
-        <div className="panel-heading">
-          <h1 className="panel-title">Ciao {nome}!</h1>
-        </div>
-        <div className="panel-body">
-          <p>{msg}</p>
+      <div className="col-md-12">
+        <div className="panel panel-default">
+          <div className="panel-heading">
+            <h1 className="panel-title">Ciao {nome}!</h1>
+          </div>
+          <div className="panel-body">
+            <p>{msg}</p>
+          </div>
         </div>
       </div>
     );
@@ -25,18 +27,18 @@ var GreeterForm = React.createClass({
     var nome = nomeRef.value;
     var msg = msgRef.value;
     var updates = {};
-    
-    if(nome.length>0){
+
+    if(nome.length > 0){
       updates.nome = nome;
       nome = '';
     }
 
-    if(msg.length>0){
+    if(msg.length > 0){
       updates.msg = msg;
       msg = '';
     }
 
-    this.props.onUpdates();
+    this.props.onUpdates(updates);
   },
 
   render: function(){
@@ -47,7 +49,7 @@ var GreeterForm = React.createClass({
           <input className="form-control" type="text" placeholder="Inserisci il nome..." ref="nome"/>
           <br/>
           <label for="msg">Inserisci il messaggio: </label>
-          <textarea className="form-control" ref="msg" />
+          <textarea className="form-control" placeholder="Aggiungi un messaggio..." ref="msg" />
           <br />
           <button className="btn btn-info">Invia</button>
         </form>
@@ -81,6 +83,7 @@ var Greeter = React.createClass({
       console.log('Chiamata Errata, manca l\'oggetto updates');
       return;
     }
+
     if(typeof updates.nome === 'string' && updates.nome.length > 0){
       this.setState({
         nome: updates.nome,
@@ -91,6 +94,7 @@ var Greeter = React.createClass({
         nomeClass:'alert alert-danger'
       });
     }
+
     if(typeof updates.msg === 'string' && updates.msg.length >0){
       this.setState({
         msg: updates.msg,
@@ -105,6 +109,7 @@ var Greeter = React.createClass({
   },
 
   render: function(){
+    // Assicurati di prendere lo stato e non la props.
     var nome = this.state.nome;
     var msg = this.state.msg;
     var nomeClass = this.state.nomeClass;
