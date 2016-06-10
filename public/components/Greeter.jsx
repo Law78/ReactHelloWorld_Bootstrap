@@ -1,62 +1,6 @@
-var GreeterMessage = React.createClass({
-  render: function(){
-    var nome = this.props.nome;
-    var msg = this.props.msg;
-    return(
-      <div className="col-md-12">
-        <div className="panel panel-default">
-          <div className="panel-heading">
-            <h1 className="panel-title">Ciao {nome}!</h1>
-          </div>
-          <div className="panel-body">
-            <p>{msg}</p>
-          </div>
-        </div>
-      </div>
-    );
-  }
-});
-
-var GreeterForm = React.createClass({
-
-  onFormSubmit: function(e){
-    e.preventDefault();
-
-    var nomeRef = this.refs.nome;
-    var msgRef = this.refs.msg;
-    var nome = nomeRef.value;
-    var msg = msgRef.value;
-    var updates = {};
-
-    if(nome.length > 0){
-      updates.nome = nome;
-      nome = '';
-    }
-
-    if(msg.length > 0){
-      updates.msg = msg;
-      msg = '';
-    }
-
-    this.props.onUpdates(updates);
-  },
-
-  render: function(){
-    return(
-      <div className="col-md-12">
-        <form className="form-group" onSubmit={this.onFormSubmit} role="form">
-          <label for="nome">Inserisci il nome: </label>
-          <input className="form-control" type="text" placeholder="Inserisci il nome..." ref="nome"/>
-          <br/>
-          <label for="msg">Inserisci il messaggio: </label>
-          <textarea className="form-control" placeholder="Aggiungi un messaggio..." ref="msg" />
-          <br />
-          <button className="btn btn-info">Invia</button>
-        </form>
-      </div>
-    );
-  }
-});
+var React = require('react');
+var GreeterMessage = require('./GreeterMessage.jsx');
+var GreeterForm = require('./GreeterForm.jsx');
 
 var Greeter = React.createClass({
   getDefaultProps: function(){
@@ -134,9 +78,4 @@ var Greeter = React.createClass({
   }
 });
 
-var nomeCompleto = 'Lorenzo Franceschini'
-var msg = 'Mio Messaggio';
-
-ReactDOM.render(
-  <Greeter/>,
-  document.getElementById('app'));
+module.exports = Greeter;
