@@ -24,16 +24,19 @@ var GreeterForm = React.createClass({
     var msgRef = this.refs.msg;
     var nome = nomeRef.value;
     var msg = msgRef.value;
-
-    this.props.onNewName(nome);
-
-    this.props.onNewMsg(msg);
-
-
-    if(nome.length > 0 && msg.length > 0){
-      this.refs.nome.value = '';
-      this.refs.msg.value = '';
+    var updates = {};
+    
+    if(nome.length>0){
+      updates.nome = nome;
+      nome = '';
     }
+
+    if(msg.length>0){
+      updates.msg = msg;
+      msg = '';
+    }
+
+    this.props.onUpdates();
   },
 
   render: function(){
@@ -72,26 +75,25 @@ var Greeter = React.createClass({
     };
   },
 
-  handleNewName: function(nome){
+  handleUpdates: function(updates){
 
-    if(typeof nome === 'string' && nome.length > 0){
+    if(!updates){
+      console.log('Chiamata Errata, manca l\'oggetto updates');
+      return;
+    }
+    if(typeof updates.nome === 'string' && updates.nome.length > 0){
       this.setState({
-        nome,
-        nomeClass:'valido'
+        nome: updates.nome,
+        nomeClass: 'valido'
       });
     } else {
       this.setState({
         nomeClass:'alert alert-danger'
       });
     }
-
-  },
-
-  handleNewMessage: function(msg){
-
-    if(typeof msg === 'string' && msg.length > 0 ){
+    if(typeof updates.msg === 'string' && updates.msg.length >0){
       this.setState({
-        msg,
+        msg: updates.msg,
         msgClass: 'valido'
       });
     } else {
@@ -99,6 +101,7 @@ var Greeter = React.createClass({
         msgClass:'alert alert-danger'
       });
     }
+
   },
 
   render: function(){
@@ -116,7 +119,7 @@ var Greeter = React.createClass({
         <div className="row">
           <div className={"col-md-8 col-md-offset-2 "+nomeClass}>Inserisci un nome valido!</div>
           <div className={"col-md-8 col-md-offset-2 "+msgClass}>Inserisci un messaggio valido!</div>
-          <GreeterForm onNewName={this.handleNewName} onNewMsg={this.handleNewMessage}/>
+          <GreeterForm onUpdates={this.handleUpdates} />
         </div>
 
 
