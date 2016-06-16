@@ -5,6 +5,14 @@ module.exports = {
     filename: './public/bundle.js'
   },
   resolve: {
+    // __dirname è una variabile disponibile nell'ambiente nodejs
+    root: __dirname,
+    // definisco un oggetto alias, in cui inserisco il path (dalla root) dei miei componenti
+    alias: {
+      Greeter: 'public/components/Greeter.jsx',
+      GreeterMessage: 'public/components/GreeterMessage.jsx',
+      GreeterForm: 'public/components/GreeterForm.jsx'
+    },
     // In questo modo mi evito di specificare l'estensione nei require ;)
     extensions: ['', '.js', '.jsx']
   },
